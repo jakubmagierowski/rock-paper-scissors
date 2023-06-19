@@ -5,9 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
+    <div class="button-container">
+        <button id="rock" class="button">ROCK</button>
+        <button id="paper" class="button">PAPER</button>
+        <button id="scissors" class="button">SCISSORS</button>
+    </div>
+    <div class="wynik">
+         <div id="score"></div>
+    </div>
     <script>
+        
+        let playerScore = 0;
+        let computerScore = 0;
+        const maxScore = 5;
+
+
        function getComputerChoice() {
             let x = Math.floor((Math.random() * 3 ) +1 );
             let computerChoice;
@@ -25,35 +41,69 @@
         let computerSelection = getComputerChoice();
 
         function playRound(playerSelection, computerSelection) {
+            let resultDiv = document.getElementById('score');
+            let scoreMessage;
+
 
             if (playerSelection == computerSelection) {
-                console.log("Its a Tie!");
+                scoreMessage = "Its a Tie!";
             } else if (playerSelection == "ROCK" && computerSelection == "SCISSORS") {
-                console.log("Player wins! Rock beats scissors!");
+                scoreMessage = "Player wins! Rock beats scissors!";
+                playerScore++;
             } else if (playerSelection == "ROCK" && computerSelection == "PAPER") {
-                console.log("Computer wins! Paper beats rock!");
+                scoreMessage = "Computer wins! Paper beats rock!";
+                computerScore++;
             } else if (playerSelection == "PAPER" && computerSelection == "ROCK")
             {
-                console.log("Player wins! Paper beats a rock!");
+                scoreMessage = "Player wins! Paper beats a rock!";
+                playerScore++;
             } else if (playerSelection == "PAPER" && computerSelection == "SCISSORS") {
-                console.log("Computer wins! Scissors beats paper!")
+                scoreMessage = "Computer wins! Scissors beats paper!"
+                computerScore++;
             } else if (playerSelection == "SCISSORS" && computerSelection == "ROCK") {
-                console.log("Computer wins! Rock beats scissors!") 
+                scoreMessage = "Computer wins! Rock beats scissors!"; 
+                computerScore++;
             } else if (playerSelection == "SCISSORS" && computerSelection == "PAPER") {
-                console.log("Player wins! Scissors beats paper!")
+                scoreMessage = "Player wins! Scissors beats paper!";
+                playerScore++;
             }
 
-        }
-        function game() {
-            for (let i = 0; i < 5; i++) {
-                let playerSelection = prompt("Whats your choice?");
-                playerSelection = playerSelection.toUpperCase();
-                computerSelection = getComputerChoice();
-                playRound(playerSelection, computerSelection);
-            }
-        }
-        game();
+            resultDiv.textContent = scoreMessage + "  Player score: " + playerScore + "  Computer score: " + computerScore;
 
+            if(playerScore >= maxScore || computerScore >= maxScore) {
+                if(playerScore > computerScore) {
+                    resultDiv.textContent = "Player won the whole game! Player score: " + playerScore + " Computer score: " +computerScore;
+              } else if (computerScore > playerScore) {
+                resultDiv.textContent = "Computer won the whole game! Player score: " + playerScore + " Computer score: " +computerScore;
+              } else {
+                resultDiv.textContent = scoreMessage;
+              }
+             }
+ }
+
+        const rockButton = document.getElementById('rock');
+        const paperButton = document.getElementById('paper');
+        const scissorsButton = document.getElementById('scissors');
+
+        rockButton.addEventListener('click', function() {
+            let computerSelection = getComputerChoice();
+            playRound('ROCK', computerSelection);
+        });
+
+        paperButton.addEventListener('click', function() {
+            let computerSelection = getComputerChoice();
+            playRound('PAPER', computerSelection);
+        });
+
+        scissorsButton.addEventListener('click', function(){
+            let computerSelection = getComputerChoice();
+            playRound('SCISSORS', computerSelection);
+        });
+
+    
+     
+
+        
 
 
         
